@@ -32,10 +32,62 @@ def main(source_dir, test_dir, val_dir):
     move_files(source_dir, test_dir, test_files)
     move_files(source_dir, val_dir, val_files)
 
+
+dataset_name = 'labelbox'
+
+
 # Define your directories
-source_directory = './demoroom_5500/train'
-test_directory = './demoroom_5500/test'
-val_directory = './demoroom_5500/val'
+source_directory = './' + dataset_name + '/train'
+test_directory = './' + dataset_name + '/test'
+val_directory = './' + dataset_name + '/val'
+
+# Define source directories
+source_images_dir = dataset_name + '/images'
+source_labels_dir = dataset_name + '/labels'
+
+# Define target directories
+train_images_dir = dataset_name + '/train/images'
+train_labels_dir = dataset_name + '/train/labels'
+test_images_dir = dataset_name + '/test/images'
+test_labels_dir = dataset_name + '/test/labels'
+val_images_dir = dataset_name + '/val/images'
+val_labels_dir = dataset_name + '/val/labels'
+
+# List of all target directories to create
+directories = [
+    train_images_dir, train_labels_dir,
+    test_images_dir, test_labels_dir,
+    val_images_dir, val_labels_dir
+]
+
+# Create all target directories if they don't exist
+for directory in directories:
+    os.makedirs(directory, exist_ok=True)
+
+# Function to move files from source to destination
+def move_files2(source_dir, target_dir):
+    for file_name in os.listdir(source_dir):
+        source_file = os.path.join(source_dir, file_name)
+        target_file = os.path.join(target_dir, file_name)
+        shutil.move(source_file, target_file)
+
+# Move image files
+move_files2(source_images_dir, train_images_dir)
+
+# Move label files
+move_files2(source_labels_dir, train_labels_dir)
+
+# Function to delete a directory if it is empty
+def delete_directory(directory):
+    if os.path.exists(directory) and len(os.listdir(directory)) == 0:
+        os.rmdir(directory)
+
+# Delete original directories if they are empty
+delete_directory(source_images_dir)
+delete_directory(source_labels_dir)
+
+
+print("Files moved and directories created successfully.")
 
 # Run the function
 main(source_directory, test_directory, val_directory)
