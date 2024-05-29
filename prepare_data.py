@@ -5,13 +5,14 @@ from random import sample
 def move_files(source_dir, target_dir, files):
     for file in files:
         # Move the image file
-        shutil.move(os.path.join(source_dir, file), os.path.join(target_dir, file))
+        shutil.move(os.path.join(source_dir,'images', file), os.path.join(target_dir,'images', file))
         # Move the corresponding label file (replace .jpg with .txt)
-        shutil.move(os.path.join(source_dir, file.replace('.png', '.txt')), os.path.join(target_dir, file.replace('.png', '.txt')))
+        shutil.move(os.path.join(source_dir,'labels', file.replace('.png', '.txt')), os.path.join(target_dir,'labels', file.replace('.png', '.txt')))
+       
 
 def main(source_dir, test_dir, val_dir):
     # List all .jpg files in the source directory
-    all_images = [f for f in os.listdir(source_dir) if f.endswith('.png')]
+    all_images = [f for f in os.listdir(os.path.join(source_dir,'images')) if f.endswith('.png')]
     # print(all_images)    
     
     # Calculate 10%(15%) of the total number of images
@@ -32,9 +33,9 @@ def main(source_dir, test_dir, val_dir):
     move_files(source_dir, val_dir, val_files)
 
 # Define your directories
-source_directory = './demoroom_dataset/train'
-test_directory = './demoroom_dataset/test'
-val_directory = './demoroom_dataset/val'
+source_directory = './demoroom_5500/train'
+test_directory = './demoroom_5500/test'
+val_directory = './demoroom_5500/val'
 
 # Run the function
 main(source_directory, test_directory, val_directory)
