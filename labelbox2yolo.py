@@ -10,9 +10,27 @@ from tqdm import tqdm
 from utils import make_dirs
 
 
+
 def convert(file, zip=True):
     """Converts Labelbox JSON labels to YOLO format and saves them, with optional zipping."""
-    names = []  # class names
+    #names = []  # class names
+
+    #predefine
+    names = [
+        'head',
+        'person_other',
+        'chair',
+        'bed',
+        'food_tray',
+        'person_in_bed',
+        'person_edge_of_bed',
+        'person_in_chair',
+        'sliding_from_bed',
+        'sliding_from_chair',
+        'person_on_floor',
+
+    ]
+
     file = Path(file)
     save_dir = make_dirs(file.stem)
     data = []
@@ -60,4 +78,4 @@ def convert(file, zip=True):
 
 
 if __name__ == "__main__":
-    convert("labelbox.ndjson")
+    convert("labelbox_dataset.ndjson")
